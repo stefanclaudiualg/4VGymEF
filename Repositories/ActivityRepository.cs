@@ -2,16 +2,16 @@
 
 namespace _4VGymAPI.Repositories
 {
-    public class InMemoryActivityRepository
+    public class ActivityRepository
     {
         private List<Activity> _activities = new();
 
         private readonly InMemoryActivityTypeRepository _repositoryActivityType;
-        private readonly InMemoryInstructorRepository _repositoryInstructor;
+        private readonly InstructorRepository _repositoryInstructor;
 
         private int _nextId = 1; // Para el autonumerico
 
-        public InMemoryActivityRepository(InMemoryActivityTypeRepository repositoryActivityType, InMemoryInstructorRepository repositoryInstructor)
+        public ActivityRepository(InMemoryActivityTypeRepository repositoryActivityType, InstructorRepository repositoryInstructor)
         {
             _repositoryActivityType = repositoryActivityType;
             _repositoryInstructor = repositoryInstructor;
