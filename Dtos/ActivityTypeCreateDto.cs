@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace _4VGymEF.Models
+namespace _4VGymAPI.Dtos
 {
     public class ActivityTypeCreateDto
     {
