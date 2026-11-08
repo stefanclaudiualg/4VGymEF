@@ -8,10 +8,10 @@ namespace _4VGymAPI.Controllers
     [Route("activity-types")]
     public class ActivityTypesController : ControllerBase
     {
-        private readonly InMemoryActivityTypeRepository _repository;
+        private readonly ActivityTypeRepository _repository;
 
         // Inyectamos la clase concreta del repositorio
-        public ActivityTypesController(InMemoryActivityTypeRepository repository)
+        public ActivityTypesController(ActivityTypeRepository repository)
         {
             _repository = repository;
         }
