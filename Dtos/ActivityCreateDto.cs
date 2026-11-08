@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using _4VGymEF.Validations;
-
-namespace _4VGymEF.Models
+using _4VGymAPI.Validations;
+namespace _4VGymAPI.Dtos
 {
     public class ActivityCreateDto
     {
