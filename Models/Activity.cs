@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using _4VGymAPI.Validations;
 
@@ -12,10 +13,17 @@ namespace _4VGymAPI.Models
         [Required(ErrorMessage = "30|La tipo de actividad es obligatorio.")]
         public int? ActivityTypeId { get; set; }
 
+        [ForeignKey(nameof(ActivityTypeId))]
+        public ActivityType? ActivityType { get; set; }
+
         [JsonPropertyName("instructors_id")]
         [Required(ErrorMessage = "26|La lista de monitores no puede ser nula.")]
         [MinLength(1, ErrorMessage = "27|La actividad debe tener asignado al menos un monitor.")]
+        [NotMapped]
         public required List<int> InstructorsId { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Instructor> Instructors { get; set; } = new List<Instructor>();
 
         [JsonPropertyName("max_particpants")]
         [Range(1, 25, ErrorMessage = "25|El aforo máximo debe estar entre 1 y 100 participantes.")]
@@ -24,7 +32,6 @@ namespace _4VGymAPI.Models
         [JsonPropertyName("date_start")]
         [FutureDate(ErrorMessage = "40|La fecha del evento debe ser posterior a la fecha y hora actual.")]
         [Required(ErrorMessage = "28|La fecha de inicio es obligatoria.")]
-
         public DateTime DateStart { get; set; }
 
         [JsonPropertyName("date_end")]
@@ -32,5 +39,4 @@ namespace _4VGymAPI.Models
         [DateGreaterThan(nameof(DateStart), ErrorMessage = "41|La fecha de fin debe ser posterior a la fecha de inicio.")]
         public DateTime DateEnd { get; set; }
     }
-
 }

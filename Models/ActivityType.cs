@@ -13,9 +13,13 @@ namespace _4VGymAPI.Models
         [JsonPropertyName("number-monitors")]
         public int NumberMonitors { get; set; } = 1;
 
+        [JsonIgnore]
+        public ICollection<Activity> Activities { get; set; } = new List<Activity>();
+
         public ActivityType()
         {
         }
+
         public ActivityType(int id, string name, int numberMonitors)
         {
             Id = id;
@@ -23,5 +27,4 @@ namespace _4VGymAPI.Models
             NumberMonitors = numberMonitors;
         }
     }
-
 }
