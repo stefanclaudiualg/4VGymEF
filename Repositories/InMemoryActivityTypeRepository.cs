@@ -1,33 +1,22 @@
-﻿using _4VGymAPI.Models;
+﻿using _4VGymAPI.Data;
+using _4VGymAPI.Models;
 
 namespace _4VGymAPI.Repositories
 {
-    public class InMemoryActivityTypeRepository
+    public class ActivityTypeRepository
     {
-        private List<ActivityType> _activityTypes = new();
+        private readonly GymDbContext _gymDbContext;
 
-        private int _nextId = 1; // Para el autonumerico
-        public InMemoryActivityTypeRepository()
+        public ActivityTypeRepository(GymDbContext gymDbContext)
         {
-            SeedData(); // Precargamos algunos datos de prueba
+            _gymDbContext = gymDbContext;
         }
-        private void SeedData()
-        {
-            _activityTypes = new List<ActivityType>()
-            {
-                new ActivityType (_nextId++, "BodyPump",  2 ),
-                new ActivityType ( _nextId++, "Spinning",  1 ),
-                new ActivityType { Id = _nextId++, Name = "Pilates", NumberMonitors = 1 }
-            };
-            _activityTypes.Add(new ActivityType(40, "CrossFit", 3));
-        }
+
         // Método para obtener todos los tipos de actividades
         public IEnumerable<ActivityType> GetAll()
         {
-            return _activityTypes;
+            return _gymDbContext.ActivityTypes.ToList();
         }
-
-
 
         /// <summary>
         /// Guarda un nuevo tipo de actividad generando su ID de forma automática. (Autonumerico)
@@ -36,10 +25,9 @@ namespace _4VGymAPI.Repositories
         /// <returns>La entidad guardada con su ID autogenerado.</returns>
         public ActivityType Add(ActivityType activityType)
         {
-            // Asignamos el ID autoincremental en la capa de datos, o sea que machacamos el que venia
-            activityType.Id = _nextId++;
-
-            _activityTypes.Add(activityType);
+            // Asignamos el ID autoincremental (el enunciado indica que los POST no tienen por qué insertar en BBDD)
+            int nextId = (_gymDbContext.ActivityTypes.Max(at => (int?)at.Id) ?? 0) + 1;
+            activityType.Id = nextId;
 
             // Devolvemos el objeto completo tal como se ha guardado
             return activityType;
@@ -48,8 +36,8 @@ namespace _4VGymAPI.Repositories
         // Método para obtener todos los tipos de actividades por Nombre
         public ActivityType? GetByName(string name)
         {
-            return _activityTypes.SingleOrDefault(at =>
-                            string.Equals(at.Name, name, StringComparison.OrdinalIgnoreCase));
+            return _gymDbContext.ActivityTypes.SingleOrDefault(at =>
+                at.Name.ToLower() == name.ToLower());
         }
 
         public ActivityType? GetById(int? id)
@@ -57,11 +45,8 @@ namespace _4VGymAPI.Repositories
             if (id == null)
                 return null;
 
-            return _activityTypes
-                .SingleOrDefault(i => i.Id == id); // FistOrDefault mejor que Where
+            return _gymDbContext.ActivityTypes
+                .SingleOrDefault(i => i.Id == id);
         }
-
-
     }
-
 }
