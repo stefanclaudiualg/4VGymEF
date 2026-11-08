@@ -41,9 +41,9 @@ builder.Services.AddDbContext<GymDbContext>(options =>
 builder.Services.AddOpenApi();
 
 // Inyección de la clase de repositorio concreta (Singleton para mantener los datos en memoria)
-builder.Services.AddSingleton<ActivityTypeRepository>();
-builder.Services.AddSingleton<InstructorRepository>();
-builder.Services.AddSingleton<ActivityRepository>();
+builder.Services.AddScoped<ActivityTypeRepository>();
+builder.Services.AddScoped<InstructorRepository>();
+builder.Services.AddScoped<ActivityRepository>();
 
 // Contruir la aplicacion
 var app = builder.Build();
