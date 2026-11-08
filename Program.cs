@@ -1,7 +1,8 @@
-
 using _4VGymAPI.Models;
 using _4VGymAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using _4VGymAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,9 @@ builder.Services.AddControllers()
         };
     });
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<GymDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 // Añadir el soporte a OpenAPI:  https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -55,9 +59,7 @@ if (app.Environment.IsDevelopment())
         // Le indicamos dónde está el archivo JSON generado por .NET
         options.SwaggerEndpoint("/openapi/v1.json", "RestAPI for 4VGym v1");
     });
-
 }
-
 
 app.UseHttpsRedirection();
 
