@@ -1,7 +1,7 @@
-﻿using _4VGymEF.Models;
+﻿using _4VGymAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace _4VGymEF.Data
+namespace _4VGymAPI.Data
 {
     public class GymDbContext : DbContext
     {
@@ -13,7 +13,7 @@ namespace _4VGymEF.Data
         public DbSet<Activity> Activities { get; set; }
         // Añade el resto (piensa cuales debes poner para que se conviertan en tablas)
         public DbSet<ActivityType> ActivityTypes { get; set; }
-        public DbSet<Instructor> Intructors { get; set; }
+        public DbSet<Instructor> Instructors { get; set; }
     }
 
 }
